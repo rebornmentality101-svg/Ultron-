@@ -15,8 +15,14 @@ jobs:
 
       - name: Make clips
         run: |
-          VIDEO=$(ls *.mp4 | head -n 1)
-          echo "Using $VIDEO"
+          echo "Files I can see:"
+          ls -la
+          VIDEO=$(find . -type f \( -iname "*.mp4" -o -iname "*.mov" -o -iname "*.mkv" \) | head -n 1)
+          echo "Using: $VIDEO"
+          if [ -z "$VIDEO" ]; then
+            echo "No video found"
+            exit 1
+          fi
           python main.py "$VIDEO"
 
       - uses: actions/upload-artifact@v4
