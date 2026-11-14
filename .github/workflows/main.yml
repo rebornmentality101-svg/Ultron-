@@ -2,10 +2,6 @@ name: Make Shorts clips
 
 on:
   workflow_dispatch:
-    inputs:
-      video_url:
-        description: Link to a video you own or have permission to use
-        required: true
 
 jobs:
   clip:
@@ -17,19 +13,13 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install yt-dlp
-        run: pip install yt-dlp
-
-      - name: Download video
-        env:
-          VIDEO_URL: ${{ inputs.video_url }}
-        run: yt-dlp -f "mp4/best" -o video.mp4 "$VIDEO_URL"
-
       - name: Make clips
-        run: python main.py video.mp4
+        run: |
+          VIDEO=$(ls *.mp4 | head -n 1)
+          echo "Using $VIDEO"
+          python main.py "$VIDEO"
 
       - uses: actions/upload-artifact@v4
         with:
           name: clips
           path: clips/
-          
