@@ -1,0 +1,7 @@
+shorts/
+.source/
+client_secret.json
+.clipsmith-token.json
+*.mp4
+*.part
+__pycache__/
